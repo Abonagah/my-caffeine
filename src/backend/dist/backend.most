@@ -1,0 +1,217 @@
+// Version: 4.0.0
+type AccessControlState__793443146 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__386906547<Principal, UserRole__817703864>
+  };
+type AppState__655603231 =
+  {
+    var nextCustomerId : Nat;
+    var nextInvoiceId : Nat;
+    var nextMovementId : Nat;
+    var nextPaymentId : Nat;
+    var nextProductId : Nat
+  };
+type CompanySettings__223927913 =
+  {
+    address : Text;
+    companyName : Text;
+    lowStockThreshold : Float;
+    phone : Text;
+    taxRate : Float
+  };
+type CompanySettings__274744410 =
+  {
+    address : Text;
+    companyName : Text;
+    lowStockThreshold : Float;
+    phone : Text;
+    taxRate : Float
+  };
+type Customer__903078749 =
+  {address : Text; id : Nat; isActive : Bool; name : Text; phone : Text};
+type Customer__950893080 =
+  {address : Text; id : Nat; isActive : Bool; name : Text; phone : Text};
+type Data__265875254<K, V> = {var count : Nat__58649523; kvs : [var ?(K, V)]};
+type Internal__161573640<K, V> =
+  {children : [var ?Node__430031793<K, V>]; data : Data__265875254<K, V>};
+type InventoryMovement__779961644 =
+  {
+    createdAt : Timestamp__301639476;
+    id : Nat;
+    movementType : MovementType__958377742;
+    productId : Nat;
+    quantity : Float
+  };
+type InventoryMovement__791146849 =
+  {
+    createdAt : Int;
+    id : Nat;
+    movementType : MovementType__257833675;
+    productId : Nat;
+    quantity : Float
+  };
+type InvoiceItem__159715287 =
+  {
+    lineTotal : Float;
+    productId : Nat;
+    productName : Text;
+    quantity : Float;
+    unitPrice : Float
+  };
+type InvoiceItem__805717918 =
+  {
+    lineTotal : Float;
+    productId : Nat;
+    productName : Text;
+    quantity : Float;
+    unitPrice : Float
+  };
+type Invoice__264085865 =
+  {
+    createdAt : Timestamp__301639476;
+    customerId : Nat;
+    discount : Float;
+    id : Nat;
+    items : [InvoiceItem__159715287];
+    paymentStatus : PaymentStatus__1050999476;
+    subtotal : Float;
+    tax : Float;
+    total : Float
+  };
+type Invoice__816189750 =
+  {
+    createdAt : Int;
+    customerId : Nat;
+    discount : Float;
+    id : Nat;
+    items : [InvoiceItem__805717918];
+    paymentStatus : PaymentStatus__32596451;
+    subtotal : Float;
+    tax : Float;
+    total : Float
+  };
+type Leaf__1045638083<K, V> = {data : Data__265875254<K, V>};
+type Map__13625999<K, V> =
+  {var root : Node__430031793<K, V>; var size : Nat__58649523};
+type Map__386906547<K, V> = Map__670138087<K, V>;
+type Map__670138087<K, V> = Map__13625999<K, V>;
+type MovementType__257833675 = {#add; #adjust; #refund; #sale};
+type MovementType__958377742 = {#add; #adjust; #refund; #sale};
+type Nat__58649523 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__630897503 =
+  {
+    accessControlState : AccessControlState__793443146;
+    customers : Map__386906547<Nat, Customer__903078749>;
+    invoices : Map__386906547<Nat, Invoice__816189750>;
+    movements : Map__386906547<Nat, InventoryMovement__791146849>;
+    payments : Map__386906547<Nat, Payment__184366973>;
+    productPermissions : Map__386906547<Principal, Bool>;
+    products : Map__386906547<Nat, Product__1049927356>;
+    settings : SettingsState__894341730;
+    state : AppState__655603231
+  };
+type Node__430031793<K, V> =
+  {#internal : Internal__161573640<K, V>; #leaf : Leaf__1045638083<K, V>};
+type OldActor__309113320 = {};
+type PaymentMethod__458906873 =
+  {#bankTransfer; #cash; #check; #instapay; #other};
+type PaymentMethod__46913440 =
+  {#bankTransfer; #cash; #check; #instapay; #other};
+type PaymentStatus__1050999476 = {#paid; #partial; #unpaid};
+type PaymentStatus__32596451 = {#paid; #partial; #unpaid};
+type Payment__184366973 =
+  {
+    amount : Float;
+    createdAt : Int;
+    customerId : Nat;
+    id : Nat;
+    invoiceId : ?Nat;
+    method : PaymentMethod__458906873
+  };
+type Payment__674851204 =
+  {
+    amount : Float;
+    createdAt : Timestamp__301639476;
+    customerId : Nat;
+    id : Nat;
+    invoiceId : ?Nat;
+    method : PaymentMethod__46913440
+  };
+type Product__1049927356 =
+  {
+    description : Text;
+    id : Nat;
+    isActive : Bool;
+    lowStockThreshold : Float;
+    name : Text;
+    purchasePrice : Float;
+    quantity : Float;
+    salePrice : Float;
+    unit : Unit__526432856
+  };
+type Product__110260450 =
+  {
+    description : Text;
+    id : Nat;
+    isActive : Bool;
+    lowStockThreshold : Float;
+    name : Text;
+    purchasePrice : Float;
+    quantity : Float;
+    salePrice : Float;
+    unit : Unit__512708855
+  };
+type SettingsState__894341730 = {var value : CompanySettings__274744410};
+type Timestamp__301639476 = Int;
+type Unit__512708855 = {#carton; #gram; #kilo; #other; #piece; #unit};
+type Unit__526432856 = {#carton; #gram; #kilo; #other; #piece; #unit};
+type UserRole__817703864 = {#admin; #guest; #user};
+type UserRole__91647283 = {#admin; #guest; #user};
+{
+  "20260818_000000" : (_old : OldActor__309113320) -> NewActor__630897503
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__386906547<Principal, UserRole__91647283>
+    };
+  stable customers :
+    {
+      var root : Node__430031793<Nat, Customer__950893080>;
+      var size : Nat__58649523
+    };
+  stable invoices :
+    {
+      var root : Node__430031793<Nat, Invoice__264085865>;
+      var size : Nat__58649523
+    };
+  stable movements :
+    {
+      var root : Node__430031793<Nat, InventoryMovement__779961644>;
+      var size : Nat__58649523
+    };
+  stable payments :
+    {
+      var root : Node__430031793<Nat, Payment__674851204>;
+      var size : Nat__58649523
+    };
+  stable productPermissions :
+    {var root : Node__430031793<Principal, Bool>; var size : Nat__58649523};
+  stable products :
+    {
+      var root : Node__430031793<Nat, Product__110260450>;
+      var size : Nat__58649523
+    };
+  stable settings : {var value : CompanySettings__223927913};
+  stable state :
+    {
+      var nextCustomerId : Nat;
+      var nextInvoiceId : Nat;
+      var nextMovementId : Nat;
+      var nextPaymentId : Nat;
+      var nextProductId : Nat
+    }
+};

@@ -1,0 +1,234 @@
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Unit = 
+ variant {
+   carton;
+   gram;
+   kilo;
+   other;
+   piece;
+   unit;
+ };
+type Timestamp = int;
+type SalesReport = 
+ record {
+   invoiceCount: nat;
+   itemsSold: float64;
+   totalSales: float64;
+ };
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type Product = 
+ record {
+   description: text;
+   id: nat;
+   isActive: bool;
+   lowStockThreshold: float64;
+   name: text;
+   purchasePrice: float64;
+   quantity: float64;
+   salePrice: float64;
+   unit: Unit;
+ };
+type PaymentStatus = 
+ variant {
+   paid;
+   partial;
+   unpaid;
+ };
+type PaymentMethod = 
+ variant {
+   bankTransfer;
+   cash;
+   check;
+   instapay;
+   other;
+ };
+type Payment = 
+ record {
+   amount: float64;
+   createdAt: Timestamp;
+   customerId: nat;
+   id: nat;
+   invoiceId: opt nat;
+   method: PaymentMethod;
+ };
+type MovementType = 
+ variant {
+   add;
+   adjust;
+   refund;
+   sale;
+ };
+type InvoiceItem = 
+ record {
+   lineTotal: float64;
+   productId: nat;
+   productName: text;
+   quantity: float64;
+   unitPrice: float64;
+ };
+type Invoice = 
+ record {
+   createdAt: Timestamp;
+   customerId: nat;
+   discount: float64;
+   id: nat;
+   items: vec InvoiceItem;
+   paymentStatus: PaymentStatus;
+   subtotal: float64;
+   tax: float64;
+   total: float64;
+ };
+type InventoryMovement = 
+ record {
+   createdAt: Timestamp;
+   id: nat;
+   movementType: MovementType;
+   productId: nat;
+   quantity: float64;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type DebtsReport = 
+ record {
+   customers: vec CustomerStatement;
+   totalDebts: float64;
+ };
+type Dashboard = 
+ record {
+   lowStockProducts: vec Product;
+   monthCollections: float64;
+   monthSales: float64;
+   recentInvoices: vec Invoice;
+   recentPayments: vec Payment;
+   todayCollections: float64;
+   todaySales: float64;
+   totalDebts: float64;
+ };
+type CustomerStatement = 
+ record {
+   balance: float64;
+   customer: Customer;
+   invoices: vec Invoice;
+   payments: vec Payment;
+ };
+type Customer = 
+ record {
+   address: text;
+   id: nat;
+   isActive: bool;
+   name: text;
+   phone: text;
+ };
+type CompanySettings = 
+ record {
+   address: text;
+   companyName: text;
+   lowStockThreshold: float64;
+   phone: text;
+   taxRate: float64;
+ };
+type CollectionsReport = 
+ record {
+   paymentCount: nat;
+   totalCollections: float64;
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  addCustomer: (name: text, phone: text, address: text) -> (nat);
+  addPayment: (customerId: nat, invoiceId: opt nat, amount: float64, method:
+   PaymentMethod) -> (nat);
+  addProduct: (name: text, description: text, salePrice: float64,
+   purchasePrice: float64, quantity: float64, unit: Unit, lowStockThreshold:
+   float64) -> (nat);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  canManageProducts: () -> (bool) query;
+  createInvoice: (customerId: nat, items: vec InvoiceItem, discount: 
+   float64, tax: float64) -> (nat);
+  deactivateCustomer: (id: nat) -> ();
+  deactivateProduct: (id: nat) -> ();
+  deleteCustomer: (id: nat) -> ();
+  deleteInvoice: (id: nat) -> ();
+  deleteProduct: (id: nat) -> ();
+  execute: (qJson: text) -> (Result) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getCollectionsReport: (start: Timestamp, end: Timestamp) ->
+   (CollectionsReport) query;
+  getCustomer: (id: nat) -> (opt Customer) query;
+  getCustomerStatement: (id: nat) -> (CustomerStatement) query;
+  getDashboard: () -> (Dashboard) query;
+  getDebtsReport: () -> (DebtsReport) query;
+  getInvoice: (id: nat) -> (opt Invoice) query;
+  getLowStockProducts: () -> (vec Product) query;
+  getProduct: (id: nat) -> (opt Product) query;
+  getSalesReport: (start: Timestamp, end: Timestamp) -> (SalesReport) query;
+  getSettings: () -> (CompanySettings) query;
+  grantProductPermission: (user: principal) -> ();
+  isCallerAdmin: () -> (bool) query;
+  listCustomers: () -> (vec Customer) query;
+  listInventory: () -> (vec InventoryMovement) query;
+  listInvoices: () -> (vec Invoice) query;
+  listPayments: () -> (vec Payment) query;
+  listProducts: () -> (vec Product) query;
+  recordMovement: (productId: nat, movementType: MovementType, quantity:
+   float64) -> ();
+  revokeProductPermission: (user: principal) -> ();
+  schema: () -> (text) query;
+  updateCustomer: (id: nat, name: text, phone: text, address: text) -> ();
+  updateInvoice: (id: nat, customerId: nat, items: vec InvoiceItem, discount:
+   float64, tax: float64) -> ();
+  updateProduct: (id: nat, name: text, description: text, salePrice: 
+   float64, purchasePrice: float64, quantity: float64, unit: Unit,
+   lowStockThreshold: float64) -> ();
+  updateSettings: (companyName: text, address: text, phone: text, taxRate:
+   float64, lowStockThreshold: float64) -> ();
+}

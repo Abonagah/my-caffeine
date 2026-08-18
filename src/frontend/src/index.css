@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Arabic-first font stacks.
+   The bundled Latin display/body fonts do not cover Arabic glyphs, so the
+   primary stacks prioritize Arabic-friendly system fonts. No Latin font files
+   are copied because the UI is fully Arabic (no English text anywhere). */
+
+@layer base {
+  :root {
+    --font-display: "Noto Kufi Arabic", "Cairo", "Segoe UI", Tahoma, sans-serif;
+    --font-body: "Noto Naskh Arabic", "Tajawal", "Segoe UI", Tahoma, sans-serif;
+    --font-mono: "JetBrains Mono", "Courier New", monospace;
+    --radius: 0.75rem;
+
+    --background: 0.982 0.007 85;
+    --foreground: 0.2 0.028 225;
+    --card: 1 0.004 85;
+    --card-foreground: 0.2 0.028 225;
+    --popover: 1 0.004 85;
+    --popover-foreground: 0.2 0.028 225;
+
+    --primary: 0.4 0.095 185;
+    --primary-foreground: 0.985 0.006 185;
+
+    --secondary: 0.948 0.014 90;
+    --secondary-foreground: 0.28 0.045 210;
+
+    --muted: 0.948 0.012 88;
+    --muted-foreground: 0.44 0.028 215;
+
+    --accent: 0.9 0.042 200;
+    --accent-foreground: 0.28 0.06 205;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.985 0.006 25;
+
+    --success: 0.52 0.16 150;
+    --warning: 0.72 0.14 75;
+
+    --border: 0.885 0.02 88;
+    --input: 0.885 0.02 88;
+    --ring: 0.4 0.095 185;
+
+    --chart-1: 0.4 0.095 185;
+    --chart-2: 0.58 0.12 220;
+    --chart-3: 0.52 0.16 150;
+    --chart-4: 0.72 0.14 75;
+    --chart-5: 0.46 0.11 155;
+
+    --sidebar: 0.97 0.008 88;
+    --sidebar-foreground: 0.2 0.028 225;
+    --sidebar-primary: 0.4 0.095 185;
+    --sidebar-primary-foreground: 0.985 0.006 185;
+    --sidebar-accent: 0.91 0.03 195;
+    --sidebar-accent-foreground: 0.24 0.05 205;
+    --sidebar-border: 0.885 0.018 88;
+    --sidebar-ring: 0.4 0.095 185;
+  }
+
+  .dark {
+    --background: 0.15 0.02 210;
+    --foreground: 0.93 0.012 88;
+    --card: 0.185 0.024 210;
+    --card-foreground: 0.93 0.012 88;
+    --popover: 0.205 0.026 210;
+    --popover-foreground: 0.93 0.012 88;
+
+    --primary: 0.7 0.11 190;
+    --primary-foreground: 0.13 0.02 190;
+
+    --secondary: 0.235 0.026 210;
+    --secondary-foreground: 0.88 0.012 88;
+
+    --muted: 0.235 0.026 210;
+    --muted-foreground: 0.6 0.02 205;
+
+    --accent: 0.27 0.045 200;
+    --accent-foreground: 0.9 0.02 88;
+
+    --destructive: 0.62 0.22 25;
+    --destructive-foreground: 0.93 0.012 25;
+
+    --success: 0.6 0.16 150;
+    --warning: 0.76 0.14 75;
+
+    --border: 0.28 0.026 210;
+    --input: 0.28 0.026 210;
+    --ring: 0.7 0.11 190;
+
+    --chart-1: 0.7 0.11 190;
+    --chart-2: 0.64 0.13 220;
+    --chart-3: 0.6 0.16 150;
+    --chart-4: 0.76 0.14 75;
+    --chart-5: 0.64 0.13 155;
+
+    --sidebar: 0.17 0.022 210;
+    --sidebar-foreground: 0.93 0.012 88;
+    --sidebar-primary: 0.7 0.11 190;
+    --sidebar-primary-foreground: 0.13 0.02 190;
+    --sidebar-accent: 0.24 0.035 200;
+    --sidebar-accent-foreground: 0.9 0.02 88;
+    --sidebar-border: 0.27 0.026 210;
+    --sidebar-ring: 0.7 0.11 190;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    direction: rtl;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Numerals and currency render LTR inside RTL text for correct ordering */
+  .num {
+    direction: ltr;
+    unicode-bidi: embed;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .gradient-primary {
+    background-image: linear-gradient(
+      135deg,
+      oklch(0.4 0.095 185),
+      oklch(0.36 0.09 200)
+    );
+  }
+
+  .gradient-subtle {
+    background-image: linear-gradient(
+      180deg,
+      oklch(0.99 0.006 85),
+      oklch(0.955 0.012 88)
+    );
+  }
+}

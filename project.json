@@ -1,0 +1,23 @@
+{
+  "overview": "A complete Arabic RTL business management system for a paper products company, covering products, customers, invoices, payments, inventory, reports, and settings with role-based access.",
+  "features": [
+    "Arabic RTL interface with Egyptian Pounds currency",
+    "Role-based login with admin and employee permissions",
+    "Dynamic product and customer management",
+    "Invoices with auto calculations and printing",
+    "Payments with multiple methods",
+    "Inventory tracking with movement history",
+    "Reports and dashboard",
+    "Persistent data across all operations"
+  ],
+  "category": "business-management",
+  "tags": [
+    "arabic",
+    "rtl",
+    "business",
+    "inventory",
+    "invoices",
+    "egp"
+  ],
+  "last_updated": "2026-08-18T19:12:44.619Z"
+}
